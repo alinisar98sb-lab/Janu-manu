@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For Shazina ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#ff5c8a22,#120014),
+             linear-gradient(135deg,#0b0010,#1a001f);
+}
+
+/* CARD */
+.card{
+  width:90%;
+  max-width:430px;
+  padding:45px 25px;
+  border-radius:28px;
+  text-align:center;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 0 50px rgba(255,80,140,0.18);
+}
+
+h1{
+  font-size:28px;
+  color:white;
+}
+
+h2{
+  font-family:'Great Vibes',cursive;
+  font-size:36px;
+  color:#ff9ec4;
+  margin-bottom:10px;
+}
+
+p{
+  font-size:15px;
+  color:#f5dce6;
+  line-height:1.7;
+  margin-bottom:25px;
+}
+
+/* BUTTON WRAPPER */
+.btns{
+  height:120px;
+  position:relative;
+}
+
+/* YES BUTTON (clean + elegant) */
+#yesBtn{
+  padding:12px 28px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff3d6e,#ff8fb1);
+  color:white;
+  font-weight:600;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(255,70,120,0.25);
+  transition:0.2s ease;
+}
+
+#yesBtn:hover{
+  transform:scale(1.05);
+}
+
+/* NO BUTTON (smart moving) */
+#noBtn{
+  position:fixed;
+  left:55%;
+  top:65%;
+  transform:translate(-50%,-50%);
+  
+  padding:12px 28px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+
+  transition:0.45s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+
+/* SUCCESS SCREEN */
+.success{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  background:radial-gradient(circle,#ff4d7d33,#0b0010);
+  color:white;
+}
+
+.success h1{
+  font-size:32px;
+}
+
+.success p{
+  font-size:18px;
+  margin-top:10px;
+}
+
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="card" id="main">
+
+  <h1>Will you marry me</h1>
+  <h2>Shazina?</h2>
+
+  <p>
+    You are my peace, my happiness, my everything ❤️<br>
+    I want to spend forever with you…
+  </p>
+
+  <div class="btns">
+    <button id="yesBtn">YES 💍</button>
+  </div>
+
+</div>
+
+<button id="noBtn">NO 😭</button>
+
+<div class="success" id="success">
+  <h1>🎉 Congratulations 🎉</h1>
+  <p>You will be the wife of <b>Ali Nisar</b> soon Insha Allah ❤️</p>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const success = document.getElementById("success");
+const main = document.getElementById("main");
+
+/* SMART SMOOTH MOVE (no teleport feel) */
+function moveNo(){
+  const rect = noBtn.getBoundingClientRect();
+
+  const padding = 20;
+  const maxX = window.innerWidth - rect.width - padding;
+  const maxY = window.innerHeight - rect.height - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+/* trigger when clicked or touched */
+noBtn.addEventListener("click", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* YES ACTION */
+yesBtn.addEventListener("click", () => {
+  main.style.display = "none";
+  noBtn.style.display = "none";
+  success.style.display = "flex";
+
+  confetti();
+});
+
+/* SIMPLE CONFETTI */
+function confetti(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.style.position="fixed";
+    c.style.width="6px";
+    c.style.height="6px";
+    c.style.background=["#ff4d7d","#fff","#ffb3c8","#ffd1dc"][Math.floor(Math.random()*4)];
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    c.style.zIndex=9999;
+    document.body.appendChild(c);
+
+    let fall=setInterval(()=>{
+      c.style.top=(parseFloat(c.style.top)+5)+"px";
+      if(parseFloat(c.style.top)>window.innerHeight){
+        c.remove();
+        clearInterval(fall);
+      }
+    },20);
+  }
+}
+</script>
+
+</body>
+</html>
