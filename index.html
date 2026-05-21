@@ -47,7 +47,6 @@ h2{
   font-family:'Great Vibes',cursive;
   font-size:36px;
   color:#ff9ec4;
-  margin-bottom:10px;
 }
 
 p{
@@ -57,13 +56,15 @@ p{
   margin-bottom:25px;
 }
 
-/* BUTTON WRAPPER */
+/* BUTTON AREA */
 .btns{
-  height:120px;
-  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
 }
 
-/* YES BUTTON (clean + elegant) */
+/* YES BUTTON */
 #yesBtn{
   padding:12px 28px;
   border:none;
@@ -81,13 +82,8 @@ p{
   transform:scale(1.05);
 }
 
-/* NO BUTTON (smart moving) */
+/* NO BUTTON (now inside layout but becomes floating when needed) */
 #noBtn{
-  position:fixed;
-  left:55%;
-  top:65%;
-  transform:translate(-50%,-50%);
-  
   padding:12px 28px;
   border-radius:999px;
   border:1px solid rgba(255,255,255,0.2);
@@ -96,9 +92,13 @@ p{
   font-size:15px;
   font-weight:600;
   cursor:pointer;
-
   transition:0.45s cubic-bezier(.2,.8,.2,1);
-  backdrop-filter:blur(10px);
+}
+
+/* floating state */
+#noBtn.floating{
+  position:fixed;
+  transform:none;
 }
 
 /* SUCCESS SCREEN */
@@ -114,28 +114,12 @@ p{
   color:white;
 }
 
-.success h1{
-  font-size:32px;
-}
-
-.success p{
-  font-size:18px;
-  margin-top:10px;
-}
-
-canvas{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-}
 </style>
 </head>
 
 <body>
 
-<canvas id="canvas"></canvas>
-
-<div class="card" id="main">
+<div class="card">
 
   <h1>Will you marry me</h1>
   <h2>Shazina?</h2>
@@ -147,11 +131,10 @@ canvas{
 
   <div class="btns">
     <button id="yesBtn">YES 💍</button>
+    <button id="noBtn">NO 😭</button>
   </div>
 
 </div>
-
-<button id="noBtn">NO 😭</button>
 
 <div class="success" id="success">
   <h1>🎉 Congratulations 🎉</h1>
@@ -159,13 +142,16 @@ canvas{
 </div>
 
 <script>
+
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const success = document.getElementById("success");
-const main = document.getElementById("main");
 
-/* SMART SMOOTH MOVE (no teleport feel) */
+/* make NO button run away */
 function moveNo(){
+
+  noBtn.classList.add("floating");
+
   const rect = noBtn.getBoundingClientRect();
 
   const padding = 20;
@@ -179,41 +165,15 @@ function moveNo(){
   noBtn.style.top = y + "px";
 }
 
-/* trigger when clicked or touched */
+/* trigger movement */
 noBtn.addEventListener("click", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 
-/* YES ACTION */
+/* YES */
 yesBtn.addEventListener("click", () => {
-  main.style.display = "none";
-  noBtn.style.display = "none";
   success.style.display = "flex";
-
-  confetti();
 });
 
-/* SIMPLE CONFETTI */
-function confetti(){
-  for(let i=0;i<120;i++){
-    const c=document.createElement("div");
-    c.style.position="fixed";
-    c.style.width="6px";
-    c.style.height="6px";
-    c.style.background=["#ff4d7d","#fff","#ffb3c8","#ffd1dc"][Math.floor(Math.random()*4)];
-    c.style.left=Math.random()*100+"vw";
-    c.style.top="-10px";
-    c.style.zIndex=9999;
-    document.body.appendChild(c);
-
-    let fall=setInterval(()=>{
-      c.style.top=(parseFloat(c.style.top)+5)+"px";
-      if(parseFloat(c.style.top)>window.innerHeight){
-        c.remove();
-        clearInterval(fall);
-      }
-    },20);
-  }
-}
 </script>
 
 </body>
